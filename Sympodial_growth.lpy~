@@ -1,0 +1,26 @@
+
+T = 10
+
+module Flower
+
+Axiom: A(1)
+production:
+
+derivation length: 5
+
+A(n):
+  if n < T: produce S[+(30)S(0.1)A(n+1)][-(30)S(0.1)A(n+1)] S(0.2)A(T)
+  else: produce Flower
+
+
+interpretation:
+
+S: 
+  produce F(1)
+A(x):
+  produce ;(2)@O(0.2)
+
+Flower:
+  produce F(0.5);(3)@O(0.3)
+
+endlsystem

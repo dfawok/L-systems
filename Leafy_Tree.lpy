@@ -1,0 +1,72 @@
+module Apex(age), Internode(length,radius)
+MAX_AGE, dr = 10, 0.08 # constants 
+
+from openalea.plantgl.all import *
+from math import *
+nb_vertical_segments = 2
+length = 4 # in some units (= cm for example)
+dl = 0.1
+scaling = 10 # to dilate/contract the leaf
+phi = 180 # Phyllotactic angle
+h = 1 # height of an internode
+module Leaf
+
+Axiom: Apex(0)
+production:
+consider: Internode
+derivation length:5
+
+Internode(l,r) --> Internode(l,r+dr)
+
+Apex(age) :
+  if age < MAX_AGE:
+     produce Internode(4,0.05) /(137.5)[ [^(-85)Leaf(scaling)]/(phi)[^(-85)Leaf(scaling)]/(phi)+(30) Internode(0.5,0.05) +(40) Apex(age+1)  ] Apex(age+1)
+     #produce Internode(6,0.05) [+(30)Internode(3,0.025)/(137.5) [+(10)Internode(4,0.025) ] [-(30)Internode(4,0.025)/(137.5)] Internode(1,0.025) Apex(age+1) ] +(30)Internode(3,0.05) Apex(age+1)
+     #produce Internode(6,0.05)  [[^(-85)Leaf(scaling)]/(phi)+(30)Internode(3,0.025)/(137.5)  Apex(age+1) ]  [[^(-85)Leaf(scaling)]/(phi)+(30)Internode(3,0.025)/(20)  Apex(age+1) ] 
+     #produce Internode(6,0.05)/(137) [+(30)Internode(3,0.025)Apex(age+1)][-(30)Internode(3,0.025)Apex(age+1)]Internode(3,0.025)Apex(age)
+interpretation:
+Internode(lp,rp) < Internode(l,r) --> F(l,r)
+Internode(l,r) --> _(r)F(l,r)
+Apex(age) --> ;(3)@O(0.5)
+Leaf(x) --> ;(2)_(0.05)F(0.2)Sweep(nerve,section,length,dl,x,width)
+
+endlsystem
+###### INITIALISATION ######
+
+__lpy_code_version__ = 1.1
+
+def __initialiseContext__(context):
+	import openalea.plantgl.all as pgl
+	width = pgl.NurbsCurve2D(	
+	    ctrlPointList = pgl.Point3Array([(0, 0.0368034, 1),(0.321038, 0.20082, 1),(0.674863, 0.127049, 1),(1, 0.00418017, 1)]) , 
+	    )
+	width.name = "width"
+	panel_0 = ({'name': 'Functions', 'active': True, 'visible': False},[('Function',width)])
+	import openalea.plantgl.all as pgl
+	nerve = pgl.NurbsCurve2D(	
+	    ctrlPointList = pgl.Point3Array([(-0.5, 0, 1),(-0.198488, 0.439782, 1),(0.269233, 0.265885, 1),(0.467244, -0.216243, 1)]) , 
+	    )
+	nerve.name = "nerve"
+	section = pgl.NurbsCurve2D(	
+	    ctrlPointList = pgl.Point3Array([(-0.5, 0, 1),(-0.195355, -0.24554, 1),(0.203326, -0.162142, 1),(0.5, 0, 1)]) , 
+	    )
+	section.name = "section"
+	panel_1 = ({'name': 'Curve2D', 'active': True, 'visible': True},[('Curve2D',nerve),('Curve2D',section)])
+	parametermy = pgl.NurbsCurve2D(	
+	    ctrlPointList = pgl.Point3Array([(0, 0.58209, 1),(0, 0.651741, 1),(0, 0.0497512, 1),(1, 0, 1)]) , 
+	    stride = 25 , 
+	    )
+	parametermy.name = "parametermy"
+	panel_2 = ({'name': 'Panel 3', 'active': True, 'visible': True},[('Function',parametermy)])
+	parameterset = [panel_0,panel_1,panel_2,]
+	context["__functions__"] = [('width',width),('parametermy',parametermy),]
+	context["__curves__"] = [('nerve',nerve),('section',section),]
+	context["__parameterset__"] = parameterset
+	context["width"] = pgl.QuantisedFunction(width)
+	context["nerve"] = nerve
+	context["section"] = section
+	context["parametermy"] = pgl.QuantisedFunction(parametermy)
+__authors__ = 'C. Godin, F. Boudon'
+__institutes__ = 'INRIA - CIRAD Virtual Plants'
+__copyright__ = 'open-source GPL'
+__description__ = "Axe feuille\n=======\n\n0. Comprendre la regle de production\n\n1. Controle de la position de la premiere feuille: positionner la premiere feuille sur l'axe des Y inclinee, vers les Y positifs\n\n2. Epaissir un peu les entrenoeuds. Que remarquez vous ?\n\n3. Decaler le point d'insertion de la feuille de maniere a le mettre juste a la peripherie de l'entreneud\n\n4. Rajouter un petiole a chaque feuille\n\n5. Changer l'angle d'insertion des feuilles\n\n6. augmenter le nombre d'entrenoeuds\n\n7. Changer la taille des entrenoeuds\n\n8. Mettre une legere courbure a la tige\n\n9. Enlever les premieres feuilles (jusqu'a la moitie de l'axe par exemple)\n\n10. Utiliser tout ce que vous avez vu dans ce TD pour contruire votre arbre ...\n\n"

@@ -1,0 +1,43 @@
+CYCLENB = 10
+JUMP = 1
+w = 90
+i = 30
+## use the default leaf module !!!
+
+def length(n):
+  return 7/(n)
+
+def radius(n):
+  return 0.45/(n)
+
+Axiom:  _(1)A(1)
+module Leaf
+
+derivation length: 15
+production:
+#produce I(length(n),radius(n) )/(60) [P(n, 0)A(n + JUMP)] A(n+1)
+A(n):
+  if n<CYCLENB : produce I(length(n),radius(n) )/(60) [P(n, 0)A(n + JUMP)] A(n+1)
+  else : produce B
+
+P(n, a):
+  produce P(n, a + 1)
+
+interpretation:
+
+I(l, r):
+  produce ;(1)F(l,r)
+  
+## P the ange varying with time
+P(n, a): 
+  if n%2 == 0: produce +(a*5)
+  else: produce -(a*5)
+
+A(n):
+  produce F(0.5)/(137)[^(-w)&(i);(2)~l(1)^(-w)&(i);(2)~l(1)]F(0.5)[^(-w)&(i);(2)~l(1)^(-w)&(i);(2)~l(1)]F(0.15);(3)@O(0.05)
+
+B:
+  produce F(0.5)/(137)[^(-w)&(i);(2)~l(1)^(-w)&(i);(2)~l(1)]
+  
+
+endlsystem

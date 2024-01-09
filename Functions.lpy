@@ -1,0 +1,48 @@
+def alpha(x):
+  return 60-5*x
+
+
+def radius(x):
+  return 0.25/(x)
+
+T = 10
+
+module Flower
+
+Axiom: A(1)
+
+derivation length:8
+production:
+
+A(n): 
+  if n < T: produce S(10*length(n/T))/(137)[+(alpha(n))S(0.1)A(n+1)][-(alpha(n))S(0.1)A(n+1)]S(0.2)A(T)
+  else: produce Flower
+
+interpretation:
+
+S(x):
+  produce F(x)
+
+A(x):
+  produce ;(2)@O(0.2)
+
+Flower:
+  produce F(0.5);(3)@O(0.3)
+
+endlsystem
+###### INITIALISATION ######
+
+__lpy_code_version__ = 1.1
+
+def __initialiseContext__(context):
+	import openalea.plantgl.all as pgl
+	length = pgl.NurbsCurve2D(	
+	    ctrlPointList = pgl.Point3Array([(0, 0.470711, 1),(0.0874455, 0.0122508, 1),(0.666667, 0, 1),(1, 0, 1)]) , 
+	    )
+	length.name = "length"
+	panel_0 = ({'name': 'Panel 1', 'active': True, 'visible': True},[('Function',length)])
+	parameterset = [panel_0,]
+	context["__functions__"] = [('length',length),]
+	context["__curves__"] = []
+	context["__parameterset__"] = parameterset
+	context["length"] = pgl.QuantisedFunction(length)
