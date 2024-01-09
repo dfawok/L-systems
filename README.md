@@ -1,12 +1,12 @@
 
 Extract from Boudon et al., 2012 "L-Py: an L-system simulation framework for modeling plant architecture development based on a dynamic language" Front. Plant Sci., (3)
 
-The formalism of L-systems has emerged as the major paradigm for constructing FSPMs. Introduced in the late 1960s by A. Lindenmayer as a formalism for describing developmental processes in biology (Lindenmayer, 1968),
+"The formalism of L-systems has emerged as the major paradigm for constructing FSPMs. Introduced in the late 1960s by A. Lindenmayer as a formalism for describing developmental processes in biology (Lindenmayer, 1968),
 L-systems proved well suited to describe models of plant development (Prusinkiewicz and Lindenmayer, 1990; Prusinkiewicz, 1998, 1999). In L-systems, the plant is represented by a bracketed string, whose elements, called modules,
 represent the plant’s components (metamers, meristems, flowers, etc.). Modules consist of a symbolic name and an optional set of parameters. Modules with the same name represent the same type of component 
 (e.g., I for internode, M for meristem, etc.). A set of rules (also called productions) then defines how each module transforms over time. In particular, a module can produce one or more new modules, thus giving a possibility 
 of adding new components to the structure. The formalism of L-systems has emerged as the major paradigm for constructing FSPMs (c.f. FSPM Special Issue, 2005, 2008, 2011). Introduced in the late 1960s by A. Lindenmayer
-as a formalism for describing developmental processes in biology (Lindenmayer, 1968), L-systems proved well suited to describe models of plant development (Prusinkiewicz and Lindenmayer, 1990; Prusinkiewicz, 1998, 1999). 
+as a formalism for describing developmental processes in biology (Lindenmayer, 1968), L-systems proved well suited to describe models of plant development (Prusinkiewicz and Lindenmayer, 1990; Prusinkiewicz, 1998, 1999). [...]"
 
 L-py is an open-source L-system-based modeling environment based on Python. To install L-Py, you need to create an environment (named for instance lpy) :
 
